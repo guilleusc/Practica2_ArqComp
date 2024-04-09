@@ -1,0 +1,8 @@
+### EJERCICIO 2 ###
+
+## Apartado A
+
+	Neste apartado cambio os bucles de orden porque así desta forma, mantemos nos registros
+	os elementos a[i][k] e c[k] dentro do bucle de tamaño N. De forma colateral, accedemos aos
+	elementos de b de forma por filas. Da forma anterior solo mantiñamos os elementos de d[i][j].
+	 
