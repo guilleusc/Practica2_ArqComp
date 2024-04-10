@@ -101,7 +101,7 @@ int main()
     ind = (int *)malloc(N * sizeof(int));
     e = (double *)malloc(N * sizeof(double));
     /** Establecer valores iniciales **/
-    srand(time(NULL));
+    srand(3);
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < 8; j++)
