@@ -5,4 +5,13 @@
 	Neste apartado cambio os bucles de orden porque así desta forma, mantemos nos registros
 	os elementos a[i][k] e c[k] dentro do bucle de tamaño N. De forma colateral, accedemos aos
 	elementos de b de forma por filas. Da forma anterior solo mantiñamos os elementos de d[i][j].
-	 
+	
+## Apartado D
+	Neste apartado desenvolvo o bucle interior en 8 instruccións secuenciales.
+	
+## Apartado E
+	
+	Neste apartado opero por bloques de tamaño [tamnho_bloque x 8] e [8 x tamanho_bloque].
+	En principio tamanho_bcloque pode ser calquera pero podemos poñelo de 8 porque nunha 
+	linea caché caben 8 floats e tal  
+	

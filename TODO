@@ -1,0 +1,4 @@
+- Poñer os nombres correctos para a compilacion ao mandar ao CESGA co script 
+- Na solución final guardar a matriz b por columnas (é decir facer a transpuesta)
+- Na solución final poñer, si encontro algunha xustificación, as matrices como vectores M*N 
+- IMPORTANTE: hai que conseguir que dea o mismo valor de f, inicializando a semilla creo que se fai
