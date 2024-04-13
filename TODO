@@ -1,8 +1,17 @@
 - Poñer os nombres correctos para a compilacion ao mandar ao CESGA co script 
+- Ademais poñer o dos argumentos que lle faga falta para que compile
+- Imprimir en cada programa solo o valor de f, para a comprobacion es do script e 
+	imprimir o numero de ciclos nun arquivo "resultados.txt" (recordar que hai unha iteracion
+	de cada programa por cada N e eso facelo unhas 15 veces e logo hai que facer un programa
+	que colla os 15 datos de cada N e de cada programa e faga a mediana). Unha posibilidad é
+	dentro dos programa facer o fprintf con \t (tipo fprintf("\t%d", clocks) e logo fora no .sh
+	en cada iteración de N poñerlle no archivo un salto de linea, tipo "echo \n >> resultados.txt" ou algo así).
+	
 - Na solución final guardar a matriz b por columnas (é decir facer a transpuesta)
 - Na solución final poñer, si encontro algunha xustificación, as matrices como vectores M*N 
 	(po siguiente ejercicio creo que vai facer falta)
-
+	
+- No informe poñer algo do que subrayre no arquivo que puxeron de AVX
 
 
 
