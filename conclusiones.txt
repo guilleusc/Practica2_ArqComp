@@ -5,6 +5,16 @@
 	Neste apartado cambio os bucles de orden porque así desta forma, mantemos nos registros
 	os elementos a[i][k] e c[k] dentro do bucle de tamaño N. De forma colateral, accedemos aos
 	elementos de b de forma por filas. Da forma anterior solo mantiñamos os elementos de d[i][j].
+
+## Apartado B
+    Movemos a multiplicación por 2 fóra do bucle máis interno. Como resultado, o número total de multiplicacións
+    en punto flotante verase reducido.
+    Empregamos notación de punteiros para acceder aos elemnetos das matrices.
+
+## Apartado C
+    Para conseguir a fusión dos bucles, non podemos acceder a d[ind[i]][ind[i]], pois non estará calculado.
+    Cambiando a estratexia, empregaremos o vector desordenado en cada acceso ao vector e.
+    (Intercambio de lazos conseguido en A).
 	
 ## Apartado D
 	Neste apartado desenvolvo o bucle interior en 8 instruccións secuenciales.

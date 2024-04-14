@@ -139,17 +139,13 @@ int main()
         {
             for (int k = 0; k < 8; k++)
             {
-                *(*(d + i) + j) += *(*(a + i) + k) * ( *(*(b + k) + j) - c[k] );
+                d[i][j] += 2 * a[i][k] * (b[k][j] - c[k]);
             }
-            *(*(d + i) + j) *= 2;
         }
-    }
 
-    // Computación del vector e y de f
-    for (int i = 0; i < N; i++)
-    {
-        e[i] = *(*(d + ind[i]) + ind[i]) / 2;
-        f += e[i];
+        // Computación del vector e y de f
+        e[ind[i]] = d[i][i] / 2;
+        f += e[ind[i]];
     }
 
     ck = get_counter();
