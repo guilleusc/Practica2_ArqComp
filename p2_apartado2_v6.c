@@ -5,11 +5,6 @@
 
 int N; // Tamaño de las matrices y vectores
 
-#define tamanho_bloque 8 // Tamaño dos bloques
-
-/* Devuelve el mínimo entre dos valores*/
-#define min(x, y) ((x) < (y) ? (x) : (y))
-
 void start_counter();
 double get_counter();
 double mhz();
@@ -82,10 +77,10 @@ void imprimir_matriz(double matriz[][N], int filas, int columnas)
     }
 }
 
-
 int main(int argc, char* argv[])
 {
     int s = 0;
+
     if (argc != 2)
     {
         printf("Uso: %s <valor_N>\n", argv[0]);
@@ -153,24 +148,11 @@ int main(int argc, char* argv[])
     /* Código a medir*/
     start_counter();
 
-    for (int bi = 0; bi < N; bi+=tamanho_bloque)
+    for (int i = 0; i < N; i++)
     {
-        for(int bj = 0; bj < N; bj += tamanho_bloque)
+        for (int j = 0; j < N; j++)
         {
-            for (int i = bi; i < min(bi + tamanho_bloque, N); i++)
-            {
-                for (int j = bj; j < min(bj + tamanho_bloque, N); j++)
-                {
-                    d[i][j] +=  2 * ( a[i][0] * (b[0][j] - c[0]) + a[i][1] * (b[1][j] - c[1]) + a[i][2] * (b[2][j] - c[2]) + a[i][3] * (b[3][j] - c[3]) + a[i][4] * (b[4][j] - c[4]) + a[i][5] * (b[5][j] - c[5]) + a[i][6] * (b[6][j] - c[6]) + a[i][7] * (b[7][j] - c[7]) );
-                    /*d[i][j] +=  2 * a[i][1] * (b[1][j] - c[1]);
-                    d[i][j] +=  2 * a[i][2] * (b[2][j] - c[2]);
-                    d[i][j] +=  2 * a[i][3] * (b[3][j] - c[3]);
-                    d[i][j] +=  2 * a[i][4] * (b[4][j] - c[4]);
-                    d[i][j] +=  2 * a[i][5] * (b[5][j] - c[5]);
-                    d[i][j] +=  2 * a[i][6] * (b[6][j] - c[6]);
-                    d[i][j] +=  2 * a[i][7] * (b[7][j] - c[7]);*/
-                }
-            }
+            d[i][j] +=  2 * ( a[i][0] * (b[0][j] - c[0]) + a[i][1] * (b[1][j] - c[1]) + a[i][2] * (b[2][j] - c[2]) + a[i][3] * (b[3][j] - c[3]) + a[i][4] * (b[4][j] - c[4]) + a[i][5] * (b[5][j] - c[5]) + a[i][6] * (b[6][j] - c[6]) + a[i][7] * (b[7][j] - c[7]) );
         }
     }
 
@@ -192,7 +174,6 @@ int main(int argc, char* argv[])
         e[i] =  d[ind[i]][ind[i]] / 2;
         f += e[i];
     }
-    
 
     ck = get_counter();
 

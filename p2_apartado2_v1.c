@@ -162,13 +162,6 @@ int main(int argc, char* argv[])
                 for (int j = bj; j < min(bj + tamanho_bloque, N); j++)
                 {
                     d[i][j] +=  2 * ( a[i][0] * (b[0][j] - c[0]) + a[i][1] * (b[1][j] - c[1]) + a[i][2] * (b[2][j] - c[2]) + a[i][3] * (b[3][j] - c[3]) + a[i][4] * (b[4][j] - c[4]) + a[i][5] * (b[5][j] - c[5]) + a[i][6] * (b[6][j] - c[6]) + a[i][7] * (b[7][j] - c[7]) );
-                    /*d[i][j] +=  2 * a[i][1] * (b[1][j] - c[1]);
-                    d[i][j] +=  2 * a[i][2] * (b[2][j] - c[2]);
-                    d[i][j] +=  2 * a[i][3] * (b[3][j] - c[3]);
-                    d[i][j] +=  2 * a[i][4] * (b[4][j] - c[4]);
-                    d[i][j] +=  2 * a[i][5] * (b[5][j] - c[5]);
-                    d[i][j] +=  2 * a[i][6] * (b[6][j] - c[6]);
-                    d[i][j] +=  2 * a[i][7] * (b[7][j] - c[7]);*/
                 }
             }
         }
@@ -192,7 +185,7 @@ int main(int argc, char* argv[])
         e[i] =  d[ind[i]][ind[i]] / 2;
         f += e[i];
     }
-    
+
 
     ck = get_counter();
 

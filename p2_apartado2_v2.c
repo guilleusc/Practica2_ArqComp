@@ -162,37 +162,18 @@ int main(int argc, char* argv[])
                 for (int j = bj; j < min(bj + tamanho_bloque, N); j++)
                 {
                     d[i][j] +=  2 * ( a[i][0] * (b[0][j] - c[0]) + a[i][1] * (b[1][j] - c[1]) + a[i][2] * (b[2][j] - c[2]) + a[i][3] * (b[3][j] - c[3]) + a[i][4] * (b[4][j] - c[4]) + a[i][5] * (b[5][j] - c[5]) + a[i][6] * (b[6][j] - c[6]) + a[i][7] * (b[7][j] - c[7]) );
-                    /*d[i][j] +=  2 * a[i][1] * (b[1][j] - c[1]);
-                    d[i][j] +=  2 * a[i][2] * (b[2][j] - c[2]);
-                    d[i][j] +=  2 * a[i][3] * (b[3][j] - c[3]);
-                    d[i][j] +=  2 * a[i][4] * (b[4][j] - c[4]);
-                    d[i][j] +=  2 * a[i][5] * (b[5][j] - c[5]);
-                    d[i][j] +=  2 * a[i][6] * (b[6][j] - c[6]);
-                    d[i][j] +=  2 * a[i][7] * (b[7][j] - c[7]);*/
                 }
             }
         }
     }
 
     // Computación del vector e y de f
-    for (s = 0; s < N - N%8; s += 8)
+    for (int i = 0; i < N; i++)
     {
-        e[s] = d[ind[s]][ind[s]] / 2;
-        e[1+s] = d[ind[1+s]][ind[1+s]] / 2;
-        e[2+s] = d[ind[2+s]][ind[2+s]] / 2;
-        e[3+s] = d[ind[3+s]][ind[3+s]] / 2;
-        e[4+s] = d[ind[4+s]][ind[4+s]] / 2;
-        e[5+s] = d[ind[5+s]][ind[5+s]] / 2;
-        e[6+s] = d[ind[6+s]][ind[6+s]] / 2;
-        e[7+s] = d[ind[7+s]][ind[7+s]] / 2;
-        f += e[s] + e[s+1] + e[s+2] + e[s+3] + e[s+4] + e[s+5] + e[s+6] + e[s+7];
-    }
-    for(int i = s; i < N; i ++)
-    {
-        e[i] =  d[ind[i]][ind[i]] / 2;
+        e[i] = d[ind[i]][ind[i]] / 2;
         f += e[i];
     }
-    
+
 
     ck = get_counter();
 
