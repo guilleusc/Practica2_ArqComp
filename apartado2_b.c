@@ -192,7 +192,7 @@ int main(int argc, char* argv[])
         free(d[i]);
     }
     free(d);
-    free(arquivo);
+    fclose(arquivo);
 
     return 0;
 }
