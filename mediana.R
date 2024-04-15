@@ -1,10 +1,16 @@
 args -> commandArgs(trailingOnly = TRUE)
 
+nombre_archivo <- args[1]
+
 # Leer el archivo de texto
-datos <- read.table(args[1], header = FALSE, sep = "\t")
+datos <- read.table(nombre_archivo, header = FALSE, sep = "\t")
 
 # Calcular la mediana por columnas
 medianas <- apply(datos, 2, median)
 
+# quitar ultimo elemento
+medianas <- head(medianas, -1)
+
+
 # Imprimir por terminal el vector de medianas
-print(medianas)
+cat(medianas, sep = '\n')

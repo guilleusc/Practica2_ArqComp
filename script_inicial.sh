@@ -81,8 +81,7 @@ done
 
 # Separar este arquivo para este N
 medianas=$(Rscript mediana.R resultados.txt)
-echo medianas >> datos.txt
-
+echo $medianas >> datos.txt
 rm resultados.txt
 done
 
