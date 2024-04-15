@@ -3,7 +3,8 @@
 #include <time.h>
 #include <unistd.h>
 
-#define N 10 // Tamaño de las matrices y vectores
+int N; // Tamaño de las matrices y vectores
+
 #define tamanho_bloque 8 // Tamaño dos bloques 
 
 /* Devuelve el mínimo entre dos valores*/
@@ -82,10 +83,28 @@ void imprimir_matriz(double matriz[][N], int filas, int columnas)
 }
 
 
-int main()
+int main(int argc, char* argv[])
 {
+    if (argc != 2)
+    {
+        printf("Uso: %s <valor_N>\n", argv[0]);
+        return 1;
+    }
+
+    // Convertir el argumento a entero
+    N = atoi(argv[1]);
+
     double ** a, ** b, * c, ** d, * e, f = 0, ck;
     int * ind;
+    FILE * arquivo;
+
+    /** Crear archivo de salida **/
+    arquivo = fopen("resultados.txt","a+");
+    if(arquivo == NULL)
+    {
+        printf("Error na apertura do arquvio\n");
+        return 1;
+    }
 
     /** Reservar memoria matrices e vectores **/
     a = (double** )malloc(N * sizeof(double *));
@@ -165,7 +184,7 @@ int main()
     printf("f = %.2f\n", f);
 
     // Imprimir el valor de los ciclos medidos:
-    printf("\n Clocks=%1.10lf \n",ck);
+    fprintf(arquivo,"%1.10lf\t",ck);
 
     free(ind);
     free(e);
@@ -186,5 +205,7 @@ int main()
         free(d[i]);
     }
     free(d);
+    free(arquivo);
+
     return 0;
 }

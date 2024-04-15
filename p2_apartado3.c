@@ -99,7 +99,6 @@ int main(int argc, char* argv[])
         printf("Error na apertura do arquvio\n");
         return 1;
     }
-
     /** Reservar memoria matrices e vectores **/
     a = (double** )malloc(N * sizeof(double *));
     for (int i = 0;i<N;i++)
@@ -155,9 +154,12 @@ int main(int argc, char* argv[])
                 d[i][j] += 2 * a[i][k] * (b[k][j] - c[k]);
             }
         }
+    }
 
-        // Computación del vector e y de f
-        e[i] = d[i][i] / 2;
+    // Computación del vector e y de f
+    for (int i = 0; i < N; i++)
+    {
+        e[i] = d[ind[i]][ind[i]] / 2;
         f += e[i];
     }
 
@@ -189,6 +191,5 @@ int main(int argc, char* argv[])
     }
     free(d);
     fclose(arquivo);
-
     return 0;
 }

@@ -13,7 +13,8 @@
 
 ## Apartado C
     Para conseguir a fusión dos bucles, non podemos acceder a d[ind[i]][ind[i]], pois non estará calculado.
-    Cambiando a estratexia, empregaremos o vector desordenado en cada acceso ao vector e.
+    CAMBIANDO A ESTRATEXIA, acederemos a d[i][i].
+
     (Intercambio de lazos conseguido en A).
 	
 ## Apartado D
