@@ -6,6 +6,7 @@
 	os elementos a[i][k] e c[k] dentro do bucle de tamaño N. De forma colateral, accedemos aos
 	elementos de b de forma por filas. Da forma anterior solo mantiñamos os elementos de d[i][j].
 
+
 ## Apartado B
     Movemos a multiplicación por 2 fóra do bucle máis interno. Como resultado, o número total de multiplicacións
     en punto flotante verase reducido.

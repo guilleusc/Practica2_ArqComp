@@ -17,17 +17,9 @@ gcc p2_apartado1.c  -o p21o0 -O0
 gcc p2_apartado1.c  -o p21o2 -O2
 gcc p2_apartado1.c  -o p21o3 -O3
 
-gcc apartado2_a.c  -o p22a -O0
-gcc apartado2_b.c  -o p22b -O0
-gcc apartado2_c.c  -o p22c -O0
-gcc apartado2_d.c  -o p22d -O0
-gcc apartado2_e.c  -o p22e -O0
-gcc p2_apartado2_v1.c -o p2_v1 -O0
-gcc p2_apartado2_v2.c -o p2_v2 -O0
-gcc p2_apartado2_v3.c -o p2_v3 -O0
-gcc p2_apartado2_v4.c -o p2_v4 -O0
-gcc p2_apartado2_v5.c -o p2_v5 -O0
-gcc p2_apartado2_v6.c -o p2_v6 -O0
+gcc p2_apartado2.c  -o p22 -O0
+
+gcc p2_apartado3.c  -o p23 -O0 -march=native 
 
 for N in 250 500 750 1000 1500 2000 2550 3000
 do
@@ -50,55 +42,20 @@ echo "Ejercicio 1 o3"
 F3=`./p21o3 $N`
 echo $F3
 
-echo "Ejercicio 2 a"
-F4=`./p22a $N`
+echo "Ejercicio 2"
+F4=`./p22 $N`
 echo $F4
 
-echo "Ejercicio 2 b"
-F5=`./p22b $N`
+echo "Ejercicio 3"
+F5=`./p23 $N`
 echo $F5
 
-echo "Ejercicio 2 c"
-F6=`./p22c $N`
-echo $F6
-
-echo "Ejercicio 2 d"
-F7=`./p22d $N`
-echo $F7
-
-echo "Ejercicio 2 e"
-F8=`./p22e $N`
-echo $F8
-
-echo "Ejercicio 2 e"
-F9=`./p2_v1 $N`
-echo $F9
-
-echo "Ejercicio 2 e"
-F9=`./p2_v2 $N`
-echo $F9
-
-echo "Ejercicio 2 e"
-F9=`./p2_v3 $N`
-echo $F9
-
-echo "Ejercicio 2 e"
-F9=`./p2_v4 $N`
-echo $F9
-
-echo "Ejercicio 2 e"
-F9=`./p2_v5 $N`
-echo $F9
-
-echo "Ejercicio 2 e"
-F9=`./p2_v6 $N`
-echo $F9
 
 echo "##################################"
 echo ""
 
 # Check f is the same in all codes
-if [[ $F1 == $F2 ]] && [[ $F1 == $F3 ]] && [[ $F1 == $F4 ]] && [[ $F1 == $F5 ]] && [[ $F1 == $F6 ]] && [[ $F1 == $F7 ]]
+if [[ $F1 == $F2 ]] && [[ $F1 == $F3 ]] && [[ $F1 == $F4 ]] && [[ $F1 == $F5 ]]
 then
     echo "Everything is fine so far"
 else
@@ -115,7 +72,7 @@ echo $medianas >> datos.txt
 rm resultados.txt
 done
 
-
+rm p21o0 p21o2 p21o3 p22 p23
 
 if [[ $flag == 0 ]]
 then

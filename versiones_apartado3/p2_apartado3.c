@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
     double ** a, ** b, **b_t, * c, ** d, f = 0, ck;
     int * ind, s, tam_linea;
     FILE * arquivo;
-    __m512d c_vector, e_vector;
+    __m512d c_vector, a_fila, b_columna, temp, e_vector;
     
     if (argc != 2)
     {
@@ -140,6 +140,7 @@ int main(int argc, char* argv[])
     start_counter();
 
     /* Inicialización a cero da matriz D */
+    /* TODO posiblemente sexa boa idea facer esto con instrucciones AVX, de 8 en 8 ou así, ou incluso con msacaras*/
    for (int i = 0; i < N; i++){
    	for (int j = 0; j < N; j++){
    		d[i][j] = 0;
@@ -150,7 +151,7 @@ int main(int argc, char* argv[])
     for (int i = 0;i < N;i++)
     {
         b_t[i] = (double *)_mm_malloc(8 * sizeof(double), tam_linea);
-        for(int j = 0; j < 8; j++){ 
+        for(int j = 0; j < 8; j++){ /* TODO posiblemente sexa boa idea facer esto con instrucciones AVXZ*/
         	b_t[i][j] = b[j][i];
         }
     }
@@ -162,7 +163,10 @@ int main(int argc, char* argv[])
     {
         for (int j = 0; j < N; j++)
         {
-            d[i][j] = 2 * _mm512_reduce_add_pd(_mm512_mul_pd(_mm512_load_pd(a[i]), _mm512_sub_pd(_mm512_load_pd(b_t[j]), c_vector)));
+            a_fila = _mm512_load_pd(a[i]);
+            b_columna = _mm512_load_pd(b_t[j]);
+            temp = _mm512_mul_pd(a_fila, _mm512_sub_pd(b_columna, c_vector));
+            d[i][j] = 2 * _mm512_reduce_add_pd(temp);
         }
     }
 

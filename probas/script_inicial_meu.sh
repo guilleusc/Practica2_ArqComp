@@ -22,14 +22,8 @@ gcc apartado2_b.c  -o p22b -O0
 gcc apartado2_c.c  -o p22c -O0
 gcc apartado2_d.c  -o p22d -O0
 gcc apartado2_e.c  -o p22e -O0
-gcc p2_apartado2_v1.c -o p2_v1 -O0
-gcc p2_apartado2_v2.c -o p2_v2 -O0
-gcc p2_apartado2_v3.c -o p2_v3 -O0
-gcc p2_apartado2_v4.c -o p2_v4 -O0
-gcc p2_apartado2_v5.c -o p2_v5 -O0
-gcc p2_apartado2_v6.c -o p2_v6 -O0
 
-for N in 250 500 750 1000 1500 2000 2550 3000
+for N in 250 500
 do
 
 for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
@@ -69,30 +63,6 @@ echo $F7
 echo "Ejercicio 2 e"
 F8=`./p22e $N`
 echo $F8
-
-echo "Ejercicio 2 e"
-F9=`./p2_v1 $N`
-echo $F9
-
-echo "Ejercicio 2 e"
-F9=`./p2_v2 $N`
-echo $F9
-
-echo "Ejercicio 2 e"
-F9=`./p2_v3 $N`
-echo $F9
-
-echo "Ejercicio 2 e"
-F9=`./p2_v4 $N`
-echo $F9
-
-echo "Ejercicio 2 e"
-F9=`./p2_v5 $N`
-echo $F9
-
-echo "Ejercicio 2 e"
-F9=`./p2_v6 $N`
-echo $F9
 
 echo "##################################"
 echo ""

@@ -68,9 +68,9 @@ double mhz(int verbose, int sleeptime)
 int main(int argc, char* argv[])
 {
     double ** a, ** b, **b_t, * c, ** d, f = 0, ck;
-    int * ind, s, tam_linea;
+    int * ind, tam_linea;
     FILE * arquivo;
-    __m512d c_vector, e_vector;
+    __m512d c_vector, a_fila, b_columna, temp;
     
     if (argc != 2)
     {
@@ -107,6 +107,7 @@ int main(int argc, char* argv[])
     {
         d[i] = (double *)_mm_malloc(N * sizeof(double), tam_linea);
     }
+    e = (double *)_mm_malloc(N * sizeof(double), tam_linea);
     c = (double *)_mm_malloc(8 * sizeof(double), tam_linea);
     ind = (int *)_mm_malloc(N * sizeof(int), tam_linea);
     /* Establecer valores iniciales */
@@ -140,6 +141,7 @@ int main(int argc, char* argv[])
     start_counter();
 
     /* Inicialización a cero da matriz D */
+    
    for (int i = 0; i < N; i++){
    	for (int j = 0; j < N; j++){
    		d[i][j] = 0;
@@ -150,7 +152,8 @@ int main(int argc, char* argv[])
     for (int i = 0;i < N;i++)
     {
         b_t[i] = (double *)_mm_malloc(8 * sizeof(double), tam_linea);
-        for(int j = 0; j < 8; j++){ 
+        
+        for(int j = 0; j < 8; j++){
         	b_t[i][j] = b[j][i];
         }
     }
@@ -162,20 +165,19 @@ int main(int argc, char* argv[])
     {
         for (int j = 0; j < N; j++)
         {
-            d[i][j] = 2 * _mm512_reduce_add_pd(_mm512_mul_pd(_mm512_load_pd(a[i]), _mm512_sub_pd(_mm512_load_pd(b_t[j]), c_vector)));
+            a_fila = _mm512_load_pd(a[i]);
+            b_columna = _mm512_load_pd(b_t[j]);
+            temp = _mm512_mul_pd(a_fila, _mm512_sub_pd(b_columna, c_vector));
+            d[i][j] = 2 * _mm512_reduce_add_pd(temp);
         }
     }
 
     // Computación del vector e y de f
     
-    for (s = 0; s < N - N%8; s += 8)
-    {    	
-    	e_vector = _mm512_div_pd(_mm512_setr_pd(d[ind[s]][ind[s]], d[ind[1+s]][ind[1+s]], d[ind[2+s]][ind[2+s]], d[ind[3+s]][ind[3+s]], d[ind[4+s]][ind[4+s]], d[ind[5+s]][ind[5+s]], d[ind[6+s]][ind[6+s]], d[ind[7+s]][ind[7+s]]), _mm512_set1_pd(2));
-        f += _mm512_reduce_add_pd(e_vector);
-    }
-    for(int i = s; i < N; i ++)
+    for(int i = 0; i < N; i ++)
     {
-        f +=  d[ind[i]][ind[i]] / 2;
+        e[i] =  d[ind[i]][ind[i]] / 2;
+        f += e[i];
     }
 
     ck = get_counter();
@@ -188,7 +190,7 @@ int main(int argc, char* argv[])
 
     _mm_free(ind);
     _mm_free(c);
-
+    _mm_free(e);
     for(int i = 0; i < N ;i++)
     {
         _mm_free(a[i]);

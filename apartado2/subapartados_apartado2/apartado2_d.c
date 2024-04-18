@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-#include <immintrin.h>
 
 int N; // Tamaño de las matrices y vectores
 
@@ -65,23 +64,35 @@ double mhz(int verbose, int sleeptime)
     return rate;
 }
 
+
+void imprimir_matriz(double matriz[][N], int filas, int columnas)
+{
+    for (int i = 0; i < filas; i++)
+    {
+        for (int j = 0; j < columnas; j++)
+        {
+            printf("%.2f\t", matriz[i][j]);
+        }
+        printf("\n");
+    }
+}
+
 int main(int argc, char* argv[])
 {
-    double ** a, ** b, **b_t, * c, ** d, f = 0, ck;
-    int * ind, s, tam_linea;
-    FILE * arquivo;
-    __m512d c_vector, e_vector;
-    
     if (argc != 2)
     {
         printf("Uso: %s <valor_N>\n", argv[0]);
         return 1;
     }
 
-    /* Convertir o argumento a enteiro */
+    // Convertir el argumento a entero
     N = atoi(argv[1]);
 
-    /* Crear archivo de salida */
+    double ** a, ** b, * c, ** d, * e, f = 0, ck;
+    int * ind;
+    FILE * arquivo;
+
+    /** Crear archivo de salida **/
     arquivo = fopen("resultados.txt","a+");
     if(arquivo == NULL)
     {
@@ -89,30 +100,27 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    tam_linea = sysconf(_SC_LEVEL1_DCACHE_LINESIZE); // Obter o tamaño da linea caché
-
-    /* Reservar memoria matrices e vectores */
-    a = (double** )_mm_malloc(N * sizeof(double *), tam_linea);
+    /** Reservar memoria matrices e vectores **/
+    a = (double** )malloc(N * sizeof(double *));
     for (int i = 0;i<N;i++)
     {
-        a[i] = (double *)_mm_malloc(8 * sizeof(double), tam_linea);
+        a[i] = (double *)malloc(8 * sizeof(double));
     }
-    b = (double** )_mm_malloc(8 * sizeof(double *), tam_linea);
+    b = (double** )malloc(8 * sizeof(double *));
     for (int i = 0;i<8;i++)
     {
-        b[i] = (double *)_mm_malloc(N * sizeof(double), tam_linea);
+        b[i] = (double *)malloc(N * sizeof(double));
     }
-    d = (double** )_mm_malloc(N * sizeof(double *), tam_linea);
+    d = (double** )malloc(N * sizeof(double *));
     for (int i = 0;i<N;i++)
     {
-        d[i] = (double *)_mm_malloc(N * sizeof(double), tam_linea);
+        d[i] = (double *)calloc(N, sizeof(double)); // Para inicializar a cero a matriz
     }
-    c = (double *)_mm_malloc(8 * sizeof(double), tam_linea);
-    ind = (int *)_mm_malloc(N * sizeof(int), tam_linea);
-    /* Establecer valores iniciales */
-    
-    srand(3); // Inicializar semilla
-    
+    c = (double *)malloc(8 * sizeof(double));
+    ind = (int *)malloc(N * sizeof(int));
+    e = (double *)malloc(N * sizeof(double));
+    /** Establecer valores iniciales **/
+    srand(3);
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < 8; j++)
@@ -135,84 +143,59 @@ int main(int argc, char* argv[])
     }
     /**********************************/
     /** COMPUTACIÓN **/
-    	
     /* Código a medir*/
     start_counter();
 
-    /* Inicialización a cero da matriz D */
-   for (int i = 0; i < N; i++){
-   	for (int j = 0; j < N; j++){
-   		d[i][j] = 0;
-   	}
-   }
-    /* Tanspoñer a matriz B */
-    b_t = (double** )_mm_malloc(N * sizeof(double *), tam_linea);
-    for (int i = 0;i < N;i++)
-    {
-        b_t[i] = (double *)_mm_malloc(8 * sizeof(double), tam_linea);
-        for(int j = 0; j < 8; j++){ 
-        	b_t[i][j] = b[j][i];
-        }
-    }
-   
-   
-    /* Cálculos */
-    c_vector = _mm512_load_pd(c);
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
         {
-            d[i][j] = 2 * _mm512_reduce_add_pd(_mm512_mul_pd(_mm512_load_pd(a[i]), _mm512_sub_pd(_mm512_load_pd(b_t[j]), c_vector)));
+                d[i][j] += 2 * a[i][0] * (b[0][j] - c[0]);
+                d[i][j] += 2 * a[i][1] * (b[1][j] - c[1]);
+                d[i][j] += 2 * a[i][2] * (b[2][j] - c[2]);
+                d[i][j] += 2 * a[i][3] * (b[3][j] - c[3]);
+                d[i][j] += 2 * a[i][4] * (b[4][j] - c[4]);
+                d[i][j] += 2 * a[i][5] * (b[5][j] - c[5]);
+                d[i][j] += 2 * a[i][6] * (b[6][j] - c[6]);
+                d[i][j] += 2 * a[i][7] * (b[7][j] - c[7]);
         }
     }
 
     // Computación del vector e y de f
-    
-    for (s = 0; s < N - N%8; s += 8)
-    {    	
-    	e_vector = _mm512_div_pd(_mm512_setr_pd(d[ind[s]][ind[s]], d[ind[1+s]][ind[1+s]], d[ind[2+s]][ind[2+s]], d[ind[3+s]][ind[3+s]], d[ind[4+s]][ind[4+s]], d[ind[5+s]][ind[5+s]], d[ind[6+s]][ind[6+s]], d[ind[7+s]][ind[7+s]]), _mm512_set1_pd(2));
-        f += _mm512_reduce_add_pd(e_vector);
-    }
-    for(int i = s; i < N; i ++)
+    for (int i = 0; i < N; i++)
     {
-        f +=  d[ind[i]][ind[i]] / 2;
+        e[i] = d[ind[i]][ind[i]] / 2;
+        f += e[i];
     }
 
     ck = get_counter();
 
-    // Imprimir o valor de f
+    // Imprimir el valor de f
     printf("f = %.2f\n", f);
 
-    // Imprimir o valor dos ciclos medidos:
+    // Imprimir el valor de los ciclos medidos:
     fprintf(arquivo,"%1.10lf\t",ck);
 
-    _mm_free(ind);
-    _mm_free(c);
+    free(ind);
+    free(e);
+    free(c);
 
     for(int i = 0; i < N ;i++)
     {
-        _mm_free(a[i]);
+        free(a[i]);
     }
     free(a);
-    
-    for(int i = 0; i < N ;i++)
-    {
-        _mm_free(b_t[i]);
-    }
-    free(b_t);
-    
     for(int i = 0; i < 8 ;i++)
     {
-        _mm_free(b[i]);
+        free(b[i]);
     }
-    _mm_free(b);
+    free(b);
     for(int i = 0; i < N ;i++)
     {
-        _mm_free(d[i]);
+        free(d[i]);
     }
-    _mm_free(d);
+    free(d);
     fclose(arquivo);
-
 
     return 0;
 }

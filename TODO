@@ -7,17 +7,24 @@
 	dentro dos programa facer o fprintf con \t (tipo fprintf("\t%d", clocks) e logo fora no .sh
 	en cada iteración de N poñerlle no archivo un salto de linea, tipo "echo \n >> resultados.txt" ou algo así).
 	
+
 - Na solución final guardar a matriz b por columnas (é decir facer a transpuesta)
 - Na solución final poñer, si encontro algunha xustificación, as matrices como vectores M*N 
 	(po siguiente ejercicio creo que vai facer falta)
 	
+- Para AVX impostante a nota da paxina 8: mirar si sale rentable a solucion
+- Según o enunciado da practica nos AVX512 hai que meter dentro da mediacion a inicializacion dos vectores grandes esos
+	
 - No informe poñer algo do que subrayre no arquivo que puxeron de AVX
 
+- Limpiar os bucles, quitandolle eso de int i 
 
 
-
+- No apartado 3 obtase por quitar o vector e, pois xa se ten un vector intermediario que é un __m512
 
 
 XA FEITO:
 
 - IMPORTANTE: hai que conseguir que dea o mismo valor de f, inicializando a semilla creo que se fai
+- poñer de bibliografia de donde sacamos o de reduce : https://stackoverflow.com/questions/26896432/horizontal-add-with-m512-avx512
+e https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html#cats=Arithmetic&text=reduce
