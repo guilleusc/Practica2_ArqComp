@@ -2,8 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include <omp.h>
 
 int N; // Tamaño de las matrices y vectores
+int C; // Número de cores
 
 void start_counter();
 double get_counter();
@@ -66,19 +68,22 @@ double mhz(int verbose, int sleeptime)
 
 int main(int argc, char* argv[])
 {
-    if (argc != 2)
+    if (argc != 3)
     {
-        printf("Uso: %s <valor_N>\n", argv[0]);
+        printf("Uso: %s <valor_N> <valor_C>\n", argv[0]);
         return 1;
     }
 
     /* Convertir el argumento a entero */
     N = atoi(argv[1]);
+    C = atoi(argv[2]);
 
-    double ** a, ** b, * c, ** d, * e, f = 0, ck;
-    int * ind, s;
+    double ** a, ** b, * c, ** d, * e, f = 0, ck, suma_particular = 0;
+    int * ind, chunk_size;
     FILE * arquivo;
 
+    /* Cálculo do número de iteraccións a repartir entre cada hilo*/
+    chunk_size = (N * N / C) + 1;
     /* Crear archivo de salida */
     arquivo = fopen("resultados.txt","a+");
     if(arquivo == NULL)
@@ -130,19 +135,25 @@ int main(int argc, char* argv[])
         ind[i] = ind[j];
         ind[j] = temp;
     }
+       
     /**********************************/
     /** COMPUTACIÓN **/
     /* Código a medir*/
     start_counter();
 
     /* Inicializar a cero a matriz D */
+   #pragma omp parallel private(suma_particular) num_threads(C)
+   {
+   #pragma omp for collapse(2) schedule(dynamic)
    for (int i = 0; i < N; i++){
    	for (int j = 0; j < N; j++){
    		d[i][j] = 0;
    	}
    }    
+   #pragma omp barrier /* Esperar a que se acabe a inicilización a cero da matriz D, para proceder cos cálculos*/
    
-    /* Cálculos */
+   /* Cálculos */
+   #pragma omp for collapse(2) schedule(dynamic)
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
@@ -150,26 +161,18 @@ int main(int argc, char* argv[])
             d[i][j] +=  2 * ( a[i][0] * (b[0][j] - c[0]) + a[i][1] * (b[1][j] - c[1]) + a[i][2] * (b[2][j] - c[2]) + a[i][3] * (b[3][j] - c[3]) + a[i][4] * (b[4][j] - c[4]) + a[i][5] * (b[5][j] - c[5]) + a[i][6] * (b[6][j] - c[6]) + a[i][7] * (b[7][j] - c[7]) );
         }
     }
-
+    #pragma omp barrier /* Esperar polo cálculo completo da matriz D*/
     // Computación del vector e y de f
-    for (s = 0; s < N - N%8; s += 8)
-    {
-        e[s] = d[ind[s]][ind[s]] / 2;
-        e[1+s] = d[ind[1+s]][ind[1+s]] / 2;
-        e[2+s] = d[ind[2+s]][ind[2+s]] / 2;
-        e[3+s] = d[ind[3+s]][ind[3+s]] / 2;
-        e[4+s] = d[ind[4+s]][ind[4+s]] / 2;
-        e[5+s] = d[ind[5+s]][ind[5+s]] / 2;
-        e[6+s] = d[ind[6+s]][ind[6+s]] / 2;
-        e[7+s] = d[ind[7+s]][ind[7+s]] / 2;
-        f += e[s] + e[s+1] + e[s+2] + e[s+3] + e[s+4] + e[s+5] + e[s+6] + e[s+7];
-    }
-    for(int i = s; i < N; i ++)
+    #pragma omp for collapse(1) schedule(dynamic)
+    for(int i = 0; i < N; i ++)
     {
         e[i] =  d[ind[i]][ind[i]] / 2;
-        f += e[i];
+        suma_particular += e[i];
     }
-
+    #pragma omp atomic // Para evitar carreiras criticas
+    f += suma_particular;
+    } // Corchete de pragma omp
+    
     ck = get_counter();
 
     // Imprimir o valor de f

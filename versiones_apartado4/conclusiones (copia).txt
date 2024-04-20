@@ -1,0 +1,38 @@
+### EJERCICIO 4 ###
+
+### PROBAS VARIANDO  O SCHEDULE ###
+Fixen distintas versións (1,2,3,4) co schedule diferente e probeinos todos, e practicamente é o mismo en
+casi todos. Igual funciona algo mellor incluso coo "auto", pero ainda así non é concluínte.
+Poñerlle calquera mismamente e xustificalo (e tamén o número que se colle de N*N/C, sendo N o
+número de hilos e N*N o número total de iteracciós).
+	
+	
+Version 5-> sin o chunksize (qu o elija o compilador)
+Version 6-> sin o schedule
+Version 7-> static sin chunksize
+
+OSTIAS SALEME QUE CA 5 EMPEORA UNHA BURRADA: CREO QUE ALGO FIXEN MAL, VOLVER A REPETIR 
+O EXPERIMENTO DE COMPARAR V1 V5 E V6: NOOO, ESTÁ BEN, PORQUE SI EN DYNAMIC NON SE LLE PON NADA,
+ENTÓN TÓMAO COMO CHUNK_SIZE = 1
+
+En cuanto a comparacion da v1, v6, e v7 son practicamente iguales. 
+Pero por poñerlle chicha ao informe, escollemos a v1 e así falamos tamén do chunk_size e fuera
+
+Ademais probei con dynamic 8 (a v8), pero vai bastante, bastante peor.
+
+Ahora vou comprobar as versións para c=64: ver a grafica. Con C=64 vai tan rápido que os resultados salen bastante irregulares. Polo que para as probas faremos con C=4 mellor. Descartamos a v5 e v8, como xa sabiamose as outras andan por aí. Se acaso a v1 é a que ten o comportamento máis regular pero xa
+De todas formas estos resultados non son definitivos hasta que os mandemos ao CESGA
+ 
+
+### PROBAS VARIANDO O NÚMERO DE HILOS (script_ap4_HILOS) ###
+Hai que esperar polos do cesga. Probamos con C = 1,2,4,8,16,32,64
+Pero cos do compute vese que con C = 64 vai fostiadisimo (tamen terá que ver que un nodo no cesga 
+ten 64 nucleos)
+
+
+### PROBAS VARIANDO O COLLAPSE ### e enton chunk_size = N/C
+
+Pois parece ser que co collapse 1 e chunk_size = N/C vai mellor que co collapse 2, ainda que non é concluinte, hai que esperar polas do CESGA
+Pero con C=64 vai tan follado que bueno pois os resultados son moi irregulares. 
+A experimentacion do cesga faremola con C=4;
+

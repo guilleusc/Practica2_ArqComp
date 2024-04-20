@@ -22,12 +22,12 @@ gcc p2_apartado2.c  -o p22 -O0
 gcc p2_apartado3.c  -o p23 -O0 -march=native 
 
 gcc p2_apartado4.c  -o p24o0 -O0 -fopenmp
-gcc p2_apartado4.c  -o p24o2 -O2 -fopenmp
 
 for N in 250 500 750 1000 1500 2000 2550 3000
 do
 
 for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+do
 echo "##################################"
 echo "N: $N"
 echo "##################################"
@@ -56,15 +56,12 @@ echo "Ejercicio 4 o0"
 F6=`./p24o0 $N $C`
 echo $F6
 
-echo "Ejercicio 4 o2"
-F7=`./p24o2 $N $C`
-echo $F7
 
 echo "##################################"
 echo ""
 
 # Check f is the same in all codes
-if [[ $F1 == $F2 ]] && [[ $F1 == $F3 ]] && [[ $F1 == $F4 ]] && [[ $F1 == $F5 ]] && [[ $F1 == $F6 ]] && [[ $F1 == $F7 ]]
+if [[ $F1 == $F2 ]] && [[ $F1 == $F3 ]] && [[ $F1 == $F4 ]] && [[ $F1 == $F5 ]] && [[ $F1 == $F6 ]] 
 then
     echo "Everything is fine so far"
 else
@@ -81,8 +78,7 @@ echo $medianas >> datos.txt
 rm resultados.txt
 done
 
-rm p21o0 p21o2 p21o3 p22 p23 p24o0 p24o2
-
+rm p21o0 p21o2 p21o3 p22 p23 p24o0
 
 if [[ $flag == 0 ]]
 then

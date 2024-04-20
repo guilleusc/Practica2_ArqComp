@@ -20,6 +20,8 @@ gcc p2_apartado1.c  -o p21o3 -O3
 gcc p2_apartado2.c  -o p22 -O0
 
 gcc p2_apartado3.c  -o p23 -O0 -march=native 
+gcc p2_apartado3v2.c  -o p23_v2 -O0 -march=native 
+gcc p2_apartado3v3.c  -o p23_v3 -O0 -march=native 
 
 for N in 250 500 750 1000 1500 2000 2550 3000
 do
@@ -50,12 +52,19 @@ echo "Ejercicio 3"
 F5=`./p23 $N`
 echo $F5
 
+echo "Ejercicio 3"
+F6=`./p23_v2 $N`
+echo $F6
+
+echo "Ejercicio 3"
+F7=`./p23_v3 $N`
+echo $F7
 
 echo "##################################"
 echo ""
 
 # Check f is the same in all codes
-if [[ $F1 == $F2 ]] && [[ $F1 == $F3 ]] && [[ $F1 == $F4 ]] && [[ $F1 == $F5 ]]
+if [[ $F1 == $F2 ]] && [[ $F1 == $F3 ]] && [[ $F1 == $F4 ]] && [[ $F1 == $F5 ]] && [[ $F1 == $F6 ]] && [[ $F1 == $F7 ]]
 then
     echo "Everything is fine so far"
 else
@@ -72,7 +81,7 @@ echo $medianas >> datos.txt
 rm resultados.txt
 done
 
-rm p21o0 p21o2 p21o3 p22 p23
+rm p21o0 p21o2 p21o3 p22 p23 p23_v2 p23_v3
 
 if [[ $flag == 0 ]]
 then

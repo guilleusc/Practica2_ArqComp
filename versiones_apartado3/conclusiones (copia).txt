@@ -1,5 +1,6 @@
 ### EJERCICIO 3 ###
 A versión 3, sen cragar os vectores AVX en registros consíguese un cambio moi grnade incluso se baixa máis que coa optimización do exericio 2. 
+Falar de que nun primeiro momento si que faciamos load da fila de A e da fila de B, en vairables separadas pero funcionaba peor que todo xunto.
 Eu creo que é porque nos aforramos esass escrituras en memoria das variables esas _m512
 Por outro lado, o feito de ter desenvoolto ou non o bucle para o cálculo de f pélalla muchísimo, entón deixámolo para frontear.
 	

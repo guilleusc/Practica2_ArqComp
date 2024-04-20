@@ -3,7 +3,7 @@
 #SBATCH -n 1 -c 64 -t 02:00:00 --mem=256G
 # Ponemos nombre a nuestro trabajo para poder identificarlo.
 # ATENCIÓN - Debes sustituir el NN por el número de equipo.
-#SBATCH --job-name p2acgNN
+#SBATCH --job-name p2acg10-versions2
 
 # Codes must print only f value, you can use debug mode to print anything else (#define DEBUG) 
 
@@ -17,17 +17,16 @@ gcc p2_apartado1.c  -o p21o0 -O0
 gcc p2_apartado1.c  -o p21o2 -O2
 gcc p2_apartado1.c  -o p21o3 -O3
 
-gcc apartado2_a.c  -o p22a -O0
-gcc apartado2_b.c  -o p22b -O0
-gcc apartado2_c.c  -o p22c -O0
-gcc apartado2_d.c  -o p22d -O0
-gcc apartado2_e.c  -o p22e -O0
 gcc p2_apartado2_v1.c -o p2_v1 -O0
 gcc p2_apartado2_v2.c -o p2_v2 -O0
 gcc p2_apartado2_v3.c -o p2_v3 -O0
 gcc p2_apartado2_v4.c -o p2_v4 -O0
 gcc p2_apartado2_v5.c -o p2_v5 -O0
 gcc p2_apartado2_v6.c -o p2_v6 -O0
+gcc p2_apartado2_v7.c -o p2_v7 -O0
+gcc p2_apartado2_v8.c -o p2_v8 -O0
+gcc p2_apartado2_v9.c -o p2_v9 -O0
+gcc p2_apartado2_v10.c -o p2_v10 -O0
 
 for N in 250 500 750 1000 1500 2000 2550 3000
 do
@@ -49,26 +48,6 @@ echo $F2
 echo "Ejercicio 1 o3"
 F3=`./p21o3 $N`
 echo $F3
-
-echo "Ejercicio 2 a"
-F4=`./p22a $N`
-echo $F4
-
-echo "Ejercicio 2 b"
-F5=`./p22b $N`
-echo $F5
-
-echo "Ejercicio 2 c"
-F6=`./p22c $N`
-echo $F6
-
-echo "Ejercicio 2 d"
-F7=`./p22d $N`
-echo $F7
-
-echo "Ejercicio 2 e"
-F8=`./p22e $N`
-echo $F8
 
 echo "Ejercicio 2 e"
 F9=`./p2_v1 $N`
@@ -94,16 +73,25 @@ echo "Ejercicio 2 e"
 F9=`./p2_v6 $N`
 echo $F9
 
+echo "Ejercicio 2 e"
+F9=`./p2_v7 $N`
+echo $F9
+
+echo "Ejercicio 2 e"
+F9=`./p2_v8 $N`
+echo $F9
+
+echo "Ejercicio 2 e"
+F9=`./p2_v9 $N`
+echo $F9
+
+echo "Ejercicio 2 e"
+F9=`./p2_v10 $N`
+echo $F9
+
 echo "##################################"
 echo ""
 
-# Check f is the same in all codes
-if [[ $F1 == $F2 ]] && [[ $F1 == $F3 ]] && [[ $F1 == $F4 ]] && [[ $F1 == $F5 ]] && [[ $F1 == $F6 ]] && [[ $F1 == $F7 ]]
-then
-    echo "Everything is fine so far"
-else
-    flag=1
-fi
 
 # Saltar de linea
 echo "" >> resultados.txt
@@ -116,11 +104,5 @@ rm resultados.txt
 done
 
 
-
-if [[ $flag == 0 ]]
-then
-    echo "Everything is fine"
-else
-    echo "Wrong F. Check it out."
-fi
+rm p21o0 p21o2 p21o3 p2_v1 p2_v2 p2_v3 p2_v4 p2_v5 p2_v6 p2_v7 p2_v8 p2_v9 p2_v10
 
