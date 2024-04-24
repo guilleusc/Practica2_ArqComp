@@ -79,11 +79,9 @@ int main(int argc, char* argv[])
     C = atoi(argv[2]);
 
     double ** a, ** b, * c, ** d, * e, f = 0, ck, suma_particular = 0;
-    int * ind, chunk_size;
+    int * ind;
     FILE * arquivo;
 
-    /* Cálculo do número de iteraccións a repartir entre cada hilo*/
-    chunk_size = (N * N / C) + 1;
     /* Crear archivo de salida */
     arquivo = fopen("resultados.txt","a+");
     if(arquivo == NULL)
@@ -144,7 +142,7 @@ int main(int argc, char* argv[])
     /* Inicializar a cero a matriz D */
    #pragma omp parallel private(suma_particular) num_threads(C)
    {
-   #pragma omp for collapse(2)
+   #pragma omp for
    for (int i = 0; i < N; i++){
    	for (int j = 0; j < N; j++){
    		d[i][j] = 0;
@@ -153,7 +151,7 @@ int main(int argc, char* argv[])
    #pragma omp barrier /* Esperar a que se acabe a inicilización a cero da matriz D, para proceder cos cálculos*/
    
    /* Cálculos */
-   #pragma omp for collapse(2) 
+   #pragma omp for 
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
@@ -163,7 +161,7 @@ int main(int argc, char* argv[])
     }
     #pragma omp barrier /* Esperar polo cálculo completo da matriz D*/
     // Computación del vector e y de f
-    #pragma omp for collapse(1)
+    #pragma omp for
     for(int i = 0; i < N; i ++)
     {
         e[i] =  d[ind[i]][ind[i]] / 2;

@@ -113,7 +113,7 @@ int main(int argc, char* argv[])
     d = (double** )malloc(N * sizeof(double *));
     for (int i = 0;i<N;i++)
     {
-        d[i] = (double *)calloc(N, sizeof(double)); // Para inicializar a cero a matriz
+        d[i] = (double *)malloc(N * sizeof(double)); // Para inicializar a cero a matriz
     }
     c = (double *)malloc(8 * sizeof(double));
     ind = (int *)malloc(N * sizeof(int));
@@ -145,6 +145,13 @@ int main(int argc, char* argv[])
     /* Código a medir*/
     start_counter();
 
+   /* Inicializar a cero a matriz D */
+    for (int i = 0; i < N; i++){
+   	for (int j = 0; j < N; j++){
+   		d[i][j] = 0;
+   	}
+    }  
+   
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
