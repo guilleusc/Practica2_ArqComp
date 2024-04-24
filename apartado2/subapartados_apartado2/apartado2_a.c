@@ -90,6 +90,7 @@ int main(int argc, char* argv[])
 
     double ** a, ** b, * c, ** d, * e, f = 0, ck;
     int * ind;
+    
     FILE * arquivo;
 
     /** Crear archivo de salida **/
@@ -99,7 +100,6 @@ int main(int argc, char* argv[])
         printf("Error na apertura do arquvio\n");
         return 1;
     }
-
     /** Reservar memoria matrices e vectores **/
     a = (double** )malloc(N * sizeof(double *));
     for (int i = 0;i<N;i++)
@@ -114,13 +114,13 @@ int main(int argc, char* argv[])
     d = (double** )malloc(N * sizeof(double *));
     for (int i = 0;i<N;i++)
     {
-        d[i] = (double *)calloc(N, sizeof(double)); // Para inicializar a cero a matriz
+        d[i] = (double *)malloc(N * sizeof(double)); // Para inicializar a cero a matriz
     }
     c = (double *)malloc(8 * sizeof(double));
     ind = (int *)malloc(N * sizeof(int));
     e = (double *)malloc(N * sizeof(double));
     /** Establecer valores iniciales **/
-    srand(3); 
+    srand(3);
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < 8; j++)
@@ -146,14 +146,23 @@ int main(int argc, char* argv[])
     /* Código a medir*/
     start_counter();
 
+   /* Inicializar a cero a matriz D */
+    for (int i = 0; i < N; i++){
+   	for (int j = 0; j < N; j++){
+   		d[i][j] = 0;
+   	}
+    }  
+   
     for (int i = 0; i < N; i++)
     {
-        for (int k = 0; k < 8; k++)
+        for (int j = 0; j < N; j++)
         {
-            for (int j = 0; j < N; j++)
+            double temp_d = d[i][j];
+            for (int k = 0; k < 8; k++)
             {
-                d[i][j] += 2 * a[i][k] * (b[k][j] - c[k]);
+                temp_d += 2 * a[i][k] * (b[k][j] - c[k]);
             }
+            d[i][j] = temp_d;
         }
     }
 
@@ -192,6 +201,5 @@ int main(int argc, char* argv[])
     }
     free(d);
     fclose(arquivo);
-
     return 0;
 }

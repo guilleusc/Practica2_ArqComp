@@ -120,7 +120,7 @@ int main(int argc, char* argv[])
     ind = (int *)malloc(N * sizeof(int));
     e = (double *)malloc(N * sizeof(double));
     /** Establecer valores iniciales **/
-    srand(3);
+    srand(3); 
     for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < 8; j++)
@@ -148,16 +148,19 @@ int main(int argc, char* argv[])
 
     for (int i = 0; i < N; i++)
     {
-        for (int j = 0; j < N; j++)
+        for (int k = 0; k < 8; k++)
         {
-            for (int k = 0; k < 8; k++)
+            for (int j = 0; j < N; j++)
             {
                 d[i][j] += 2 * a[i][k] * (b[k][j] - c[k]);
             }
         }
+    }
 
-        // Computación del vector e y de f
-        e[i] = d[i][i] / 2;
+    // Computación del vector e y de f
+    for (int i = 0; i < N; i++)
+    {
+        e[i] = d[ind[i]][ind[i]] / 2;
         f += e[i];
     }
 
