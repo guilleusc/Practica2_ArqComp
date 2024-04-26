@@ -64,19 +64,6 @@ double mhz(int verbose, int sleeptime)
     return rate;
 }
 
-
-void imprimir_matriz(double matriz[][N], int filas, int columnas)
-{
-    for (int i = 0; i < filas; i++)
-    {
-        for (int j = 0; j < columnas; j++)
-        {
-            printf("%.2f\t", matriz[i][j]);
-        }
-        printf("\n");
-    }
-}
-
 int main(int argc, char* argv[])
 {
     if (argc != 2)
@@ -114,7 +101,7 @@ int main(int argc, char* argv[])
     d = (double** )malloc(N * sizeof(double *));
     for (int i = 0;i<N;i++)
     {
-        d[i] = (double *)malloc(N * sizeof(double)); // Para inicializar a cero a matriz
+        d[i] = (double *)malloc(N * sizeof(double));
     }
     c = (double *)malloc(8 * sizeof(double));
     ind = (int *)malloc(N * sizeof(int));

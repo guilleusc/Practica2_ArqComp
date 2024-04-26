@@ -151,6 +151,13 @@ int main(int argc, char* argv[])
     /** COMPUTACIÓN **/
     /* Código a medir*/
     start_counter();
+    
+   /* Inicializar a cero a matriz D */
+    for (int i = 0; i < N; i++){
+   	for (int j = 0; j < N; j++){
+   		d[i][j] = 0;
+   	}
+    }
 
     for (int bi = 0; bi < N; bi+=tamanho_bloque){
         for(int bj = 0; bj < N; bj += tamanho_bloque){
